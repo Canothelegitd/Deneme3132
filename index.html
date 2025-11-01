@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reklam</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .coming-soon {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .loading-title {
+            color: #fff;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #ff6b6b);
+            border-radius: 20px;
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.4) 50%,
+                rgba(255,255,255,0) 100%);
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-text {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .email-notice {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        #percentage {
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="coming-soon">Reklam İzleyerek Kazandığınız Uygulama Yükleniyor</div>
+        <h1 class="loading-title">Uygulam Demo Olarak Çıkıyor Az Kaldı </h1>
+        <div class="loading-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="loading-text">
+            Hazırlanıyor: <span id="percentage">0</span>%
+        </div>
+        <div class="email-notice">
+            Tüm hazırlıklar tamamlandığında size mail ile bilgi vereceğiz. 
+            Sabırsızlıkla bekleyeceğiniz bir deneyime hazır olun!
+        </div>
+    </div>
+
+    <script>
+        let progress = 0;
+        const progressBar = document.getElementById('progress');
+        const percentageText = document.getElementById('percentage');
+        
+        // Her saatte %5 artış için gerekli hesaplama
+        // 1 saat = 3600000 milisaniye
+        // %5 için gereken süre = 3600000 milisaniye
+        const interval = 3600000; // 1 saat
+
+        function updateProgress() {
+            if (progress < 100) {
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                percentageText.textContent = progress;
+
+                if (progress === 100) {
+                    // Yükleme tamamlandığında
+                    document.querySelector('.loading-text').textContent = 'Hazırlıklar Tamamlandı!';
+                    document.querySelector('.email-notice').textContent = 
+                        'Bilgilendirme mailimiz size ulaştırılmıştır. Teşekkür ederiz!';
+                }
+            }
+        }
+
+        // İlk çalıştırma
+        updateProgress();
+        
+        // Her saat başı güncelleme
+        setInterval(updateProgress, interval);
+    </script>
+</body>
+</html>
